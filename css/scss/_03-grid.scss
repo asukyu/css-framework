@@ -1,0 +1,168 @@
+/* ============================
+GRID PART
+============================ */
+
+
+// ============================
+//  MIXINS
+// ============================
+@mixin resposive-columns($suffix: ''){
+  @for $i from 0 through $columns{
+    @if $i !=0 {
+      .col#{$suffix}-#{$i}{
+        width: $i / $columns * 100%;
+      }
+    }
+    .col#{$suffix}-center{
+      margin: 0 auto;
+      float: none;
+    }
+    .col#{$suffix}-push-#{$i}{
+      left: $i / $columns *100%;
+    }
+    .col#{$suffix}-offset-#{$i}{
+      margin-left: $i / $columns *100%;
+    }
+    .col#{$suffix}-pull-#{$i}{
+      right: $i / $columns *100%;
+    }
+  }
+}
+
+// ============================
+//  EXTENDS
+// ============================
+%col{
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding: 0 $gutter-width * 0.5;
+
+  background-color: rgba(#000, 0.2);
+  border: 1px solid rgba(#000, 0.5);
+}
+
+%clearfix {
+  &:before,
+  &:after{
+    content:"";
+    display: table;
+  }
+  &:after{
+    clear: both;
+  }
+  &{
+    overflow: hidden;
+    *zoom: 1;
+  }
+}
+
+// ============================
+//  CLASS
+// ============================
+.row{
+  margin: 0 $gutter-width * -0.5;
+  @extend %clearfix;
+}
+
+.col-center{
+  margin: 0 auto;
+  float: none;
+}
+
+.container{
+  max-width: $l-container-width;
+  margin: 0 auto;
+}
+
+// ============================
+//  GRID
+// ============================
+@for $i from 1 through $columns{
+  .col-s-#{$i}, .col-m-#{$i}, .col-ml-#{$i}, .col-l-#{$i}, .col-xl-#{$i} {
+    @extend %col;
+  }
+}
+
+@include resposive-columns('-s');
+
+.m-hidden{
+  display: none;
+}
+.ml-hidden{
+  display: none;
+}
+.l-hidden{
+  display: none;
+}
+.xl-hidden{
+  display: none;
+}
+
+//============================
+// TABLETS SCREENS
+//============================
+@media only screen and (min-width: $s-screen) {
+  @include resposive-columns('-m');
+  .m-hidden{
+    display: none;
+  }
+  .m-show{
+    display: block;
+  }
+  .s-show{
+    display: none;
+  }
+}
+
+//============================
+// TABLETS SCREENS LANDSCAPE
+//============================
+@media only screen and (min-width: $m-screen) {
+  @include resposive-columns('-ml');
+  .ml-hidden{
+    display: none;
+  }
+  .ml-show{
+    display: block;
+  }
+  .m-show{
+    display: none;
+  }
+}
+
+//============================
+// LAPTOP SCREENS
+//============================
+@media only screen and (min-width: $m-screen-landscape) {
+  @include resposive-columns('-l');
+  .l-hidden{
+    display: none;
+  }
+  .l-show{
+    display: block;
+  }
+  .ml-show{
+    display: none;
+  }
+}
+
+//============================
+// DESKTOP SCREENS
+//============================
+@media only screen and (min-width: $l-screen) {
+  @include resposive-columns('-xl');
+  .xl-hidden{
+    display: none;
+  }
+  .xl-show{
+    display: block;
+  }
+  .l-show{
+    display: none;
+  }
+  .container{
+    max-width: $xl-container-width;
+    margin: 0 auto;
+  }
+}
